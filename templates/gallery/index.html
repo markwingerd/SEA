@@ -1,0 +1,23 @@
+{% load staticfiles %}
+<html>
+<title>Strangely Ever After - Gallery</title>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static "styles.css" %}" />
+</head>
+<body>
+
+{% if latest_project_list %}
+    <table>
+        <th>Strangely Ever After Gallery</th>
+        {% for p in latest_project_list %}
+            <tr>
+            <td><a href="/gallery/{{ p.id }}/">{{ p.project }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No projects are available</p>
+{% endif %}
+
+</body>
+</html>

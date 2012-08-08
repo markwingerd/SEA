@@ -1,0 +1,23 @@
+{% load staticfiles %}
+<html>
+<title>Strangely Ever After - Gallery</title>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static "styles.css" %}" />
+</head>
+<body>
+
+{% if latest_galleryimage_list %}
+    <table>
+        <th>{{ project_name }}</th>
+        {% for img in latest_galleryimage_list %}
+            <tr>
+            <td><a href="/gallery/{{ project_id }}/{{ img.id }}/">{{ img.title }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No images are available for this project.</p>
+{% endif %}
+
+</body>
+</html>

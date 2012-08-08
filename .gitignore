@@ -1,0 +1,3 @@
+StrangelyEverAfter/gallery/static/*
+*.pyc
+templates/admin/*

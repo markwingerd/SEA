@@ -1,0 +1,36 @@
+{% load staticfiles %}
+<html>
+<title>Strangely Ever After - Gallery</title>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static "styles.css" %}" />
+</head>
+<body>
+
+
+{% if title %}
+    <table boarder="5">
+        <tr>
+            <th>Project</th>
+            <th>{{ project_name}}</th>
+        </tr>
+        <tr>
+            <td>Title</td>
+            <td>{{ title }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+            <img src="{% static location %}"/>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Publish date - {{pub_date}}</td>
+        </tr>
+    </table>
+{% else %}
+    <p>Opps. Looks like there is an error.</p>
+{% endif %}
+
+
+</body>
+</html>
