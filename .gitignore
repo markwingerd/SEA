@@ -1,3 +1,7 @@
-StrangelyEverAfter/gallery/static/*
+*.log
+*.pot
 *.pyc
+local_settings.py
+*~
 templates/admin/*
+media/*

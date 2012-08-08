@@ -6,10 +6,10 @@
 </head>
 <body>
 
-{% if latest_project_list %}
+{% if project_list %}
     <table>
         <th>Strangely Ever After Gallery</th>
-        {% for p in latest_project_list %}
+        {% for p in project_list %}
             <tr>
             <td><a href="/gallery/{{ p.id }}/">{{ p.project }}</a></td>
             </tr>
