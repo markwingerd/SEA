@@ -4,6 +4,9 @@ from django.contrib import admin
 class PictureInline(admin.StackedInline):
     model = Picture
     extra = 3
+    fieldsets = [
+        ('Upload',       {'fields': ['image', 'picture_type', 'title']}),
+    ]
 
 class ProjectAdmin(admin.ModelAdmin):
     fieldsets = [
