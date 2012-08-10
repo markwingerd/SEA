@@ -8,25 +8,22 @@
 
 
 {% if title %}
-    <table boarder="5">
+    <center><table id="imageview">
         <tr>
-            <th>Project</th>
-            <th>{{ project_name}}</th>
+            <th>Project: {{ project_name}}</th>
         </tr>
         <tr>
-            <td>Title</td>
-            <td>{{ title }}</td>
+            <td>Title: {{ title }}</td>
         </tr>
         <tr>
-            <td colspan="2">
+            <td>
             <img src="{{ location }}" />
             </td>
         </tr>
         <tr>
-            <td></td>
             <td>Publish date - {{pub_date}}</td>
         </tr>
-    </table>
+    </table></center>
 {% else %}
     <p>Opps. Looks like there is an error.</p>
 {% endif %}

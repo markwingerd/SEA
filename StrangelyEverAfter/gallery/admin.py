@@ -3,7 +3,7 @@ from django.contrib import admin
 
 class PictureInline(admin.StackedInline):
     model = Picture
-    extra = 3
+    extra = 2
     fieldsets = [
         ('Upload',       {'fields': ['image', 'picture_type', 'title']}),
     ]

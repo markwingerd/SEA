@@ -1,11 +1,34 @@
 body {
     background-color:#b0c4de;
+    font-family: Verdana, sans-serif;
 }
 
-table, td, th {
-    border:1px;
+table td, th {
+    /*border:1px solid black;*/
 }
 th {
     background-color:green;
     color:white;
+    width: 0px; /*Fix*/
+}
+td {
+    width: 128px;
+    max-width: 128px;
+    word-wrap: break-word;
+}
+#title{
+    vertical-align: bottom;
+    text-align: center;
+}
+#image{
+    vertical-align: top;
+    text-align: center;
+}
+
+#wideview {
+    width: 640px;
+    max-width: 640px;
+}
+#imageview td{
+    max-width:640px;
 }

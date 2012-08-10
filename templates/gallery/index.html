@@ -7,14 +7,14 @@
 <body>
 
 {% if project_list %}
-    <table>
+    <center><table id="wideview">
         <th>Strangely Ever After Gallery</th>
         {% for p in project_list %}
             <tr>
             <td><a href="/gallery/{{ p.id }}/">{{ p.project }}</a></td>
             </tr>
         {% endfor %}
-    </table>
+    </table></center>
 {% else %}
     <p>No projects are available</p>
 {% endif %}

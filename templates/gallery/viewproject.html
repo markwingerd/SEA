@@ -6,15 +6,30 @@
 </head>
 <body>
 
-{% if latest_galleryimage_list %}
-    <table>
-        <th>{{ project_name }}</th>
-        {% for img in latest_galleryimage_list %}
-            <tr>
-            <td><a href="/gallery/{{ project_id }}/{{ img.id }}/">{{ img.title }}</a></td>
-            </tr>
+{% if galleryimage_list %}
+
+    <center><table>
+        <th colspan=5><img src="{{ banner_image }}" /></th>
+
+        {% for inner_list in galleryimage_list %}
+        <tr>
+            {% for img in inner_list %}
+                <td id="title"><a href="./{{ img.id }}/">{{ img.title }}</a></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for img in inner_list %}
+                <td id="image"><a href="./{{ img.id }}/"><img src="{{ img.thumb.url }}"></a></td>
+            {% endfor %}
+        </tr>
+
         {% endfor %}
-    </table>
+
+    </table></center>
+
+
+
+
 {% else %}
     <p>No images are available for this project.</p>
 {% endif %}
