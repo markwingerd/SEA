@@ -11,8 +11,8 @@ PICTURE_TYPE_CHOICES = (
 )
 THUMBNAIL_SIZE = (128, 128)
 MAX_PHOTO_SIZE = (512, 512)
-BANNER_WIDTH = float(640)
-BANNER_CROP = (0,125,640,256) # BANNER_CROP is left, upper, right, lower
+BANNER_WIDTH = float(978)
+BANNER_CROP = (0,256,978,384) # BANNER_CROP is left, upper, right, lower
 
 
 def updateContent(field, name, img, fmt="JPEG"):
@@ -71,6 +71,7 @@ class Picture(models.Model):
             multiplier = BANNER_WIDTH / width
             width = int(width * multiplier)
             height = int(height * multiplier)
+            print width
             bannerImg = bannerImg.resize((width, height), Image.ANTIALIAS)
             bannerImg = bannerImg.crop(BANNER_CROP)
             bannerImg.load()

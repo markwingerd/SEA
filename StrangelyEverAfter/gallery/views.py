@@ -53,7 +53,7 @@ def project(request, project_id):
     return render_to_response('gallery/viewproject.html', {
         'project_name': project_info.project,
         'banner_image': banner_image,
-        'galleryimage_list': image_list
+        'galleryimage_list': galleryimage_list
     })
 
 

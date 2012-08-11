@@ -6,6 +6,39 @@
 </head>
 <body>
 
+
+
+
+{% if galleryimage_list %}
+    <div id="wrapper">
+        <div id="header"><img src="{{ banner_image }}"></div>
+        <div id="navigation">
+            Navigation bar<br />
+            Navigation bar<br />
+            Navigation bar<br />
+            Navigation bar<br />
+            Navigation bar<br />
+        </div>
+        <div id="content">
+            {% for img in galleryimage_list %}
+                <div id="image-box">
+                    <a href="./{{ img.id }}">
+                        <div id="image-title">{{ img.title }}</div>
+                        <div id="image"><img src="{{ img.thumb.url }}"></div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <div id="footer">
+            Footer
+        </div>
+    </div>
+{% else %}
+    <p>No images are available for this project.</p>
+{% endif %}
+
+
+<!-- {% comment %}
 {% if galleryimage_list %}
 
     <center><table>
@@ -33,6 +66,6 @@
 {% else %}
     <p>No images are available for this project.</p>
 {% endif %}
-
+{% endcomment %}--> 
 </body>
 </html>

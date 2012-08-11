@@ -1,7 +1,12 @@
 body {
     background-color:#b0c4de;
     font-family: Verdana, sans-serif;
+    font-size: small;
 }
+a:link {text-decoration:none;}
+a:visited {text-decoration:none;}
+a:hover {text-decoration:underline;}
+a:active {text-decoration:underline;}
 
 table td, th {
     /*border:1px solid black;*/
@@ -31,4 +36,59 @@ td {
 }
 #imageview td{
     max-width:640px;
+}
+
+
+
+
+
+
+
+/******************************/
+div {
+    border: 1px solid black; /* Reserved for website design */
+    padding: 5px;
+    margin: 5px;
+}
+/* Contains the whole website */
+#wrapper {
+    position: relative;
+    width: 1000px;
+    margin: 0px auto;
+    clear: both;
+}
+#header {
+    height: 128px;
+}
+#navigation {
+    float: left;
+    width: 150;
+}
+#content {
+    float: right;
+    width: 800px;
+}
+#image-box {
+    float:left;
+    vertical-align: top;
+    text-align: center;
+    word-wrap: break-word;
+    width: 135px;
+    max-width: 135px;
+    /*height: 160px;/**/
+    margin: 6px;
+}
+#image-title {
+    height: 30px;
+    max-height: 30px;
+    margin: 0px;
+}
+#image {
+    margin: 0px;
+}
+/* Used to push the wrapper div around the contents of the website*/
+#footer {
+    overflow: hidden;
+    width:978;
+    height: 20px;
 }
