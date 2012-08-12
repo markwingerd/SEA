@@ -46,7 +46,7 @@ td {
 
 /******************************/
 div {
-    border: 1px solid black; /* Reserved for website design */
+    border: 0px solid black; /* Reserved for website design */
     padding: 5px;
     margin: 5px;
 }

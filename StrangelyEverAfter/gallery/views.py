@@ -2,7 +2,6 @@ from django.shortcuts import render_to_response, get_object_or_404, get_list_or_
 from gallery.models import Project, Picture
 from django.conf import settings
 
-####
 import os
 import os.path
 import re
@@ -10,28 +9,11 @@ import Image
 from django.template import Library
 
 register = Library()
-###
-
 
 def index(request):
     project_list = Project.objects.all().order_by('-pub_date')[:20]
     return render_to_response('gallery/index.html', {'project_list': project_list})
 
-"""
-def project(request, project_id):
-    project_info = get_object_or_404(Project, pk=project_id)
-    galleryimage_list = get_list_or_404(Picture, project_id=project_id)
-    # Find banner image
-    for p in galleryimage_list:
-        if p.banner: 
-            banner_image = p.banner.url
-            break
-    return render_to_response('gallery/viewproject.html', {
-        'project_name': project_info.project,
-        'banner_image': banner_image,
-        'galleryimage_list': galleryimage_list
-    })
-"""
 def project(request, project_id):
     project_info = get_object_or_404(Project, pk=project_id)
     galleryimage_list = get_list_or_404(Picture, project_id=project_id)

@@ -7,9 +7,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^gallery/', include('gallery.urls')),
-    #url(r'^gallery/$', 'gallery.views.index'),
-    #url(r'^gallery/(?P<project_id>\d+)/$', 'gallery.views.project'),
-    #url(r'^gallery/(?P<project_id>\d+)/(?P<galleryimage_id>\d+)/$', 'gallery.views.galleryimage'),
     url(r'^admin/', include(admin.site.urls)),
 
     # This needs to be here in order to display images on the local server
