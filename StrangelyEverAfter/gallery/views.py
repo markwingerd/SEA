@@ -19,10 +19,10 @@ def project(request, project_id):
     galleryimage_list = get_list_or_404(Picture, project_id=project_id)
 
     # Find banner image
-    for p in galleryimage_list:
-        if p.banner: 
-            banner_image = p.banner.url
-            break
+    #for p in galleryimage_list:
+    #    if p.banner: 
+    #        banner_image = p.banner.url
+    #        break
 
     # Create a list of 5 item lists of pictures
     image_list = ()
@@ -34,7 +34,7 @@ def project(request, project_id):
         inner_list = ()
     return render_to_response('gallery/viewproject.html', {
         'project_name': project_info.project,
-        'banner_image': banner_image,
+        'banner_image': project_info.banner.url,
         'galleryimage_list': galleryimage_list
     })
 

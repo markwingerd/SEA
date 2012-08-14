@@ -5,7 +5,7 @@ class PictureInline(admin.StackedInline):
     model = Picture
     extra = 2
     fieldsets = [
-        ('Upload',       {'fields': ['image', 'picture_type', 'title']}),
+        ('Upload',       {'fields': ['image', 'title', 'picture_type']}),
     ]
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -13,6 +13,7 @@ class ProjectAdmin(admin.ModelAdmin):
         ('Name',       {'fields': ['project']}),
         ('Information', {'fields': ['banner', 'pub_date']}),
     ]
+    readonly_fields=('banner','pub_date')
     inlines = [PictureInline]
     list_display = ('project','pub_date')
     list_filter = ['pub_date']

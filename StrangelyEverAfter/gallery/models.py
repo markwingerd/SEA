@@ -4,6 +4,7 @@ from cStringIO import StringIO
 from django.core.files.base import ContentFile
 import os
 from PIL import Image
+from datetime import datetime
 
 PICTURE_TYPE_CHOICES = (
     ('M', 'Master'),
@@ -30,19 +31,18 @@ class Project(models.Model):
         return self.project
     project = models.CharField(max_length=200)
     banner = models.ImageField(upload_to='images/banner', blank=True)
+    pub_date = models.DateTimeField(auto_now_add=True)
 
-    pub_date = models.DateTimeField('date uploaded')
     # Used to add a banner image if a picture is uploaded as a Master.
     def upload_banner(self, name, img, fmt):
         updateContent(self.banner, name, img, fmt)
         super(Project, self).save()
 
-
 class Picture(models.Model):
     def __unicode__(self):
         return self.title
     project = models.ForeignKey(Project)
-    picture_type = models.CharField(max_length=3, choices=PICTURE_TYPE_CHOICES)
+    picture_type = models.CharField(max_length=3, choices=PICTURE_TYPE_CHOICES, default='C')
     title = models.CharField(max_length=60, blank=True, null=True)
     image = models.ImageField(upload_to='images')
     thumb = models.ImageField(upload_to='images/thumb')
