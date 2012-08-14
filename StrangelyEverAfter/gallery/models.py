@@ -29,7 +29,13 @@ class Project(models.Model):
     def __unicode__(self):
         return self.project
     project = models.CharField(max_length=200)
+    banner = models.ImageField(upload_to='images/banner', blank=True)
+
     pub_date = models.DateTimeField('date uploaded')
+    # Used to add a banner image if a picture is uploaded as a Master.
+    def upload_banner(self, name, img, fmt):
+        updateContent(self.banner, name, img, fmt)
+        super(Project, self).save()
 
 
 class Picture(models.Model):
@@ -40,41 +46,52 @@ class Picture(models.Model):
     title = models.CharField(max_length=60, blank=True, null=True)
     image = models.ImageField(upload_to='images')
     thumb = models.ImageField(upload_to='images/thumb')
-    banner = models.ImageField(upload_to='images/banner')
     pub_date = models.DateTimeField(auto_now_add=True)
+
+    # Find any other pictures with Master and switch them to Common.
+    #  Note: Currently this will magically skip the currently
+    #  added/changed picture.
+    def switch_common(self):
+        picture_list = Picture.objects.filter(project=self.project)
+        for p in picture_list:
+            if p.picture_type == 'M':
+                p.picture_type = 'C'
+                p.save()
+
+    def resize_image(self, field, size, source):
+        original = Image.open(source.path)
+        fmt = original.format
+        img = original.copy()
+        img.thumbnail(size, Image.ANTIALIAS)
+        updateContent(field, source.name, img, fmt)
+
+    def crop_image(self, field, source, required_width, crop_size):
+        """ Suitable for only this one application """
+        # These saves will add the image files.
+        field.save(source.name, source, save=False)
+
+        # Get dimentions needed for the eventual crop.
+        img = Image.open(source.path)
+        fmt = img.format
+        width, height = img.size
+        multiplier = required_width / width
+        width = int(width * multiplier)
+        height = int(height * multiplier)
+
+        # Resize the image, crop, load the crop, upload
+        img = img.resize((width, height), Image.ANTIALIAS)
+        img = img.crop(crop_size)
+        img.load()
+        self.project.upload_banner(source.name, img, fmt)
+
 
     def save(self):
         self.image.save(self.image.name, self.image, save=False)
         self.thumb.save(self.image.name, self.image, save=False)
-
-        imgFile = Image.open(self.image.path)
-        fmt = imgFile.format
-
-        #Convert to RGB
-        if imgFile.mode not in ('L', 'RGB'):
-            imgFile = imgFile.convert('RGB')
-
-        # make sure photo doesn't exceed our max photo size for the site
-        resizeImg = imgFile.copy()
-        resizeImg.thumbnail(MAX_PHOTO_SIZE, Image.ANTIALIAS)
-        updateContent(self.image, self.image.name, resizeImg, fmt)
-
-        thumbImg = imgFile.copy()
-        thumbImg.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
-        updateContent(self.thumb, self.image.name, thumbImg, fmt)
-
-        # Alters image size, then crops.
         if self.picture_type == 'M':
-            self.banner.save(self.image.name, self.image, save=False)
-            bannerImg = imgFile.copy()
-            width, height = bannerImg.size
-            multiplier = BANNER_WIDTH / width
-            width = int(width * multiplier)
-            height = int(height * multiplier)
-            print width
-            bannerImg = bannerImg.resize((width, height), Image.ANTIALIAS)
-            bannerImg = bannerImg.crop(BANNER_CROP)
-            bannerImg.load()
-            updateContent(self.banner, self.image.name, bannerImg, fmt)
+            self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
+            self.switch_common()
+        self.resize_image(self.image, MAX_PHOTO_SIZE, self.image)
+        self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
 
         super(Picture, self).save()

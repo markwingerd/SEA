@@ -11,7 +11,7 @@ class PictureInline(admin.StackedInline):
 class ProjectAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Name',       {'fields': ['project']}),
-        ('Information', {'fields': ['pub_date'], 'classes': ['collapse']}),
+        ('Information', {'fields': ['banner', 'pub_date']}),
     ]
     inlines = [PictureInline]
     list_display = ('project','pub_date')
