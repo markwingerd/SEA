@@ -5,6 +5,7 @@ from django.core.files.base import ContentFile
 import os
 from PIL import Image
 from datetime import datetime
+from django.core.exceptions import ValidationError
 
 PICTURE_TYPE_CHOICES = (
     ('M', 'Master'),
@@ -23,6 +24,12 @@ def updateContent(field, name, img, fmt="JPEG"):
     if field:
         os.remove(field.path)
         field.save(name=name, content=cf, save=False)
+
+
+def validate_only_one_instance(obj):
+    model = obj.__class__
+    if (model.objects.count() > 0 and obj.id != model.objects.get().id):
+        raise ValidationError('Can only create 1 %s instance' % model.__name__)
 
 
 # Create your models here.
@@ -47,16 +54,6 @@ class Picture(models.Model):
     image = models.ImageField(upload_to='images')
     thumb = models.ImageField(upload_to='images/thumb')
     pub_date = models.DateTimeField(auto_now_add=True)
-
-    # Find any other pictures with Master and switch them to Common.
-    #  Note: Currently this will magically skip the currently
-    #  added/changed picture.
-    def switch_common(self):
-        picture_list = Picture.objects.filter(project=self.project)
-        for p in picture_list:
-            if p.picture_type == 'M':
-                p.picture_type = 'C'
-                p.save()
 
     def resize_image(self, field, size, source):
         original = Image.open(source.path)
@@ -85,13 +82,74 @@ class Picture(models.Model):
         self.project.upload_banner(source.name, img, fmt)
 
 
-    def save(self):
-        self.image.save(self.image.name, self.image, save=False)
-        self.thumb.save(self.image.name, self.image, save=False)
-        if self.picture_type == 'M':
-            self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
-            self.switch_common()
-        self.resize_image(self.image, MAX_PHOTO_SIZE, self.image)
-        self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
+    def save(self, *args, **kwargs):
+        try: # Detect if picture object exsists.
+            this = Picture.objects.get(id=self.id)
+            if this.image != self.image: # Uploaded image is new
+                # Delete previous images.
+                this.image.delete(save=False)
+                this.thumb.delete(save=False)
+                # Edit image as required.
+                self.image.save(self.image.name, self.image, save=False)
+                self.resize_image(self.image, MAX_PHOTO_SIZE, self.image)
+                self.thumb.save(self.image.name, self.image, save=False)
+                self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
+                if self.picture_type == 'M':
+                    this.project.banner.delete(save=False)
+                    self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
+            if this.picture_type != self.picture_type and self.picture_type =='M':
+                this.project.banner.delete(save=False)
+                self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
+        except: # Enters if picture object did not exsist.
+            # Edit image as required.
+            self.image.save(self.image.name, self.image, save=False)
+            self.resize_image(self.image, MAX_PHOTO_SIZE, self.image)
+            self.thumb.save(self.image.name, self.image, save=False)
+            self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
 
-        super(Picture, self).save()
+        super(Picture, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.image.delete(save=False)
+        self.thumb.delete(save=False)
+        #self.project.banner.delete(save=False)
+        super(Picture, self).delete(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Not working at the moment. Saving for later.
+class Style(models.Model):
+    bg_color = models.CharField(max_length=6, default='b0c4de')
+    banner_width = models.IntegerField(help_text='This is also the page width', default=978)
+    banner_height = models.IntegerField(default=128)
+    navigation_bar_width = models.IntegerField(default=150)
+    thumbs_per_row = models.IntegerField(default=5)
+    thumbs_per_page = models.IntegerField(default=20)
+    image_width = models.IntegerField(help_text='Maximum width of an image.', default=640)
+    image_height = models.IntegerField(help_text='Maximum height of an image.', default=640)
+
+    thumb_width = models.IntegerField(default=128)
+    thumb_height = models.IntegerField(default=128)
+
+    def clean(self):
+        validate_only_one_instance(self)
+
+    # On save, apply all nessessary changes to Project and Picture

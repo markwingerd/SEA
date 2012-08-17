@@ -18,12 +18,6 @@ def project(request, project_id):
     project_info = get_object_or_404(Project, pk=project_id)
     galleryimage_list = get_list_or_404(Picture, project_id=project_id)
 
-    # Find banner image
-    #for p in galleryimage_list:
-    #    if p.banner: 
-    #        banner_image = p.banner.url
-    #        break
-
     # Create a list of 5 item lists of pictures
     image_list = ()
     inner_list = ()
