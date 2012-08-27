@@ -18,14 +18,6 @@ def project(request, project_id):
     project_info = get_object_or_404(Project, pk=project_id)
     galleryimage_list = get_list_or_404(Picture, project_id=project_id)
 
-    # Create a list of 5 item lists of pictures
-    image_list = ()
-    inner_list = ()
-    for i in range(0, len(galleryimage_list), 5):
-        for img in galleryimage_list[i:i+5]:
-            inner_list += (img,)
-        image_list += (inner_list,)
-        inner_list = ()
     return render_to_response('gallery/viewproject.html', {
         'project_name': project_info.project,
         'banner_image': project_info.banner.url,

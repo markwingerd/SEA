@@ -83,7 +83,50 @@ class Picture(models.Model):
 
 
     def save(self, *args, **kwargs):
-        try: # Detect if picture object exsists.
+        try: # Detect if picture object exists.
+            this = Picture.objects.get(id=self.id)
+            # Picture object exists.
+            if this.image != self.image: # Uploaded image is new.
+                # Delete previous image and thumb.
+                this.image.delete(save=False)
+                this.thumb.delete(save=False)
+                # Add replacement image and thumb.
+                self.resize_image(self.image, MAX_PHOTO_SIZE, self.image)
+                self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
+                if self.picture_type == 'M': # Add a banner if this is a master.
+                    this.project.banner.delete(save=False)
+                    self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
+            elif this.picture_type != self.picture_type: # Image did not change but picture_type did.
+                if self.picture_type == 'M': # This is now a master. Add Banner.
+                    self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
+                else: # This is no longer a master. Delete Banner.
+                    self.project.banner.delete(save=False)
+        except: # Picture object does not exist.
+            # Add the image and thumb.
+            self.image.save(self.image.name, self.image, save=False)
+            self.resize_image(self.image, MAX_PHOTO_SIZE, self.image)
+            self.thumb.save(self.image.name, self.image, save=False)
+            self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
+            # If this is a master image.
+            if self.picture_type == 'M': # Add the banner to the project.
+                self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        """
+        try: # Detect if picture object exists.
             this = Picture.objects.get(id=self.id)
             if this.image != self.image: # Uploaded image is new
                 # Delete previous images.
@@ -97,15 +140,17 @@ class Picture(models.Model):
                 if self.picture_type == 'M':
                     this.project.banner.delete(save=False)
                     self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
-            if this.picture_type != self.picture_type and self.picture_type =='M':
+            # Enter if only picture type changed to 'M' but the image did not.
+            elif this.picture_type != self.picture_type and self.picture_type =='M':
                 this.project.banner.delete(save=False)
                 self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
-        except: # Enters if picture object did not exsist.
+        except: # Enters if picture object did not exist.
             # Edit image as required.
             self.image.save(self.image.name, self.image, save=False)
             self.resize_image(self.image, MAX_PHOTO_SIZE, self.image)
             self.thumb.save(self.image.name, self.image, save=False)
             self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
+        """
 
         super(Picture, self).save(*args, **kwargs)
 
