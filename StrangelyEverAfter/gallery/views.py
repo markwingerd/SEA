@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
 from gallery.models import Project, Picture
 from django.conf import settings
+from django.core.paginator import Paginator
 
 import os
 import os.path

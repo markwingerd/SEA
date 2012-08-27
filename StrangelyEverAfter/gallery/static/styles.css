@@ -85,6 +85,7 @@ div {
 }
 #image {
     margin: 0px;
+    height: 128px;
 }
 /* Used to push the wrapper div around the contents of the website*/
 #footer {
