@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
 from gallery.models import Project, Picture
 from django.conf import settings
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import os
 import os.path
@@ -19,10 +19,20 @@ def project(request, project_id):
     project_info = get_object_or_404(Project, pk=project_id)
     galleryimage_list = get_list_or_404(Picture, project_id=project_id)
 
+    paginator = Paginator(galleryimage_list, 15)
+    page = request.GET.get('page')
+    try:
+        image_list = paginator.page(page)
+    except PageNotAnInteger:
+        image_list = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range, deliver last page of results.
+        image_list = paginator.page(paginator.num_pages)
+
     return render_to_response('gallery/viewproject.html', {
         'project_name': project_info.project,
         'banner_image': project_info.banner.url,
-        'galleryimage_list': galleryimage_list
+        'galleryimage_list': image_list
     })
 
 

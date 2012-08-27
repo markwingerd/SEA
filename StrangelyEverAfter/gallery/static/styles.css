@@ -46,7 +46,7 @@ td {
 
 /******************************/
 div {
-    border: 0px solid black; /* Reserved for website design */
+    border: 1px solid black; /* Reserved for website design */
     padding: 5px;
     margin: 5px;
 }
@@ -86,6 +86,12 @@ div {
 #image {
     margin: 0px;
     height: 128px;
+}
+#paginator-container {
+    margin: 0px;
+    width: 788px;
+    clear: both;
+    text-align: center;
 }
 /* Used to push the wrapper div around the contents of the website*/
 #footer {

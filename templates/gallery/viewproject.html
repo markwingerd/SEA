@@ -28,6 +28,25 @@
                     </a>
                 </div>
             {% endfor %}
+
+            <div id="paginator-container">
+                <span>
+                    {% if galleryimage_list.has_previous %}
+                        <a href="?page={{ galleryimage_list.previous_page_number }}">previous</a>
+                    {% else %}
+                        previous
+                    {% endif %}
+                    <span>
+                        Page {{ galleryimage_list.number }} of {{ galleryimage_list.paginator.num_pages }}.
+                    </span>
+                    {% if galleryimage_list.has_next %}
+                        <a href="?page={{ galleryimage_list.next_page_number }}">next</a>
+                    {% else %}
+                        next
+                    {% endif %}
+                </span>
+            </div>
+
         </div>
         <div id="footer">
             Footer
@@ -37,35 +56,5 @@
     <p>No images are available for this project.</p>
 {% endif %}
 
-
-<!-- {% comment %}
-{% if galleryimage_list %}
-
-    <center><table>
-        <th colspan=5><img src="{{ banner_image }}" /></th>
-
-        {% for inner_list in galleryimage_list %}
-        <tr>
-            {% for img in inner_list %}
-                <td id="title"><a href="./{{ img.id }}/">{{ img.title }}</a></td>
-            {% endfor %}
-        </tr>
-        <tr>
-            {% for img in inner_list %}
-                <td id="image"><a href="./{{ img.id }}/"><img src="{{ img.thumb.url }}"></a></td>
-            {% endfor %}
-        </tr>
-
-        {% endfor %}
-
-    </table></center>
-
-
-
-
-{% else %}
-    <p>No images are available for this project.</p>
-{% endif %}
-{% endcomment %}--> 
 </body>
 </html>

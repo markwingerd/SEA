@@ -11,7 +11,7 @@
         <th>Strangely Ever After Gallery</th>
         {% for p in project_list %}
             <tr>
-            <td><a href="/gallery/{{ p.id }}/">{{ p.project }}</a></td>
+            <td><a href="/gallery/{{ p.id }}/?page=1">{{ p.project }}</a></td>
             </tr>
         {% endfor %}
     </table></center>
