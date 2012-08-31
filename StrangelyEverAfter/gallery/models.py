@@ -1,11 +1,14 @@
 from django.db import models
-
-from cStringIO import StringIO
 from django.core.files.base import ContentFile
+from django.core.exceptions import ValidationError
+from django.conf import settings
+
 import os
+from cStringIO import StringIO
 from PIL import Image
 from datetime import datetime
-from django.core.exceptions import ValidationError
+
+from watermark import watermark
 
 PICTURE_TYPE_CHOICES = (
     ('M', 'Master'),
@@ -55,11 +58,14 @@ class Picture(models.Model):
     thumb = models.ImageField(upload_to='images/thumb')
     pub_date = models.DateTimeField(auto_now_add=True)
 
-    def resize_image(self, field, size, source):
+    def resize_image(self, field, size, source, add_watermark=False):
         original = Image.open(source.path)
         fmt = original.format
         img = original.copy()
         img.thumbnail(size, Image.ANTIALIAS)
+        if add_watermark:
+            img = watermark(img, settings.MEDIA_ROOT + 'resources/small_watermark.png')
+            img = watermark(img, settings.MEDIA_ROOT + 'resources/large_watermark.png',position='center',opacity=0.1)
         updateContent(field, source.name, img, fmt)
 
     def crop_image(self, field, source, required_width, crop_size):
@@ -85,7 +91,6 @@ class Picture(models.Model):
     def save(self, *args, **kwargs):
         try: # Detect if picture object exists.
             this = Picture.objects.get(id=self.id)
-            # Picture object exists.
             if this.image != self.image: # Uploaded image is new.
                 # Delete previous image and thumb.
                 this.image.delete(save=False)
@@ -104,7 +109,7 @@ class Picture(models.Model):
         except: # Picture object does not exist.
             # Add the image and thumb.
             self.image.save(self.image.name, self.image, save=False)
-            self.resize_image(self.image, MAX_PHOTO_SIZE, self.image)
+            self.resize_image(self.image, MAX_PHOTO_SIZE, self.image, add_watermark=True)
             self.thumb.save(self.image.name, self.image, save=False)
             self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
             # If this is a master image.

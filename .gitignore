@@ -4,4 +4,7 @@
 local_settings.py
 *~
 templates/admin/*
-media/*
+media/images/*.*
+media/images/banner/*.*
+media/images/thumb/*.*
+media/resources/*.xcf
