@@ -1,0 +1,61 @@
+body {
+    background-color:#202020;
+}
+
+/*Main Display Styles*/
+.mainDisplay{
+    position:relative;
+    z-index:1;
+    background-color:#000020;
+    margin:auto;
+    top:0px;
+    width:1000px;
+}
+.mainDisplayImage {
+    position:absolute;
+    z-index:2;
+    top:200px;
+    left:208px;
+    width:600px;
+    height:400px;
+}
+.mainDisplayBoarder {
+    position:absolute;
+    z-index:4;
+    top:0px;
+    left:0px;
+    width:1000px;
+    height:700px;
+}
+.mainDisplayForwards {
+    position:absolute;
+    z-index:5;
+    top:200px;
+    left:608px;
+    width:200px;
+    height:400px;
+}
+.mainDisplayBack {
+    position:absolute;
+    z-index:5;
+    top:200px;
+    left:208px;
+    width:200px;
+    height:400px;
+}
+
+
+/* Link Box */
+.mainDisplayLinkBox {
+    position:absolute;
+    z-index:4;
+    top:200px;
+    left:830px;
+    width:200px;
+    height:600px;
+}
+.mainDisplayLinks {
+    width:200px;
+    height:40px;
+    border-style: none;
+}
