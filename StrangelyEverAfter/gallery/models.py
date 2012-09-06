@@ -95,26 +95,29 @@ class Picture(models.Model):
                 # Delete previous image and thumb.
                 this.image.delete(save=False)
                 this.thumb.delete(save=False)
-                # Add replacement image and thumb.
-                self.resize_image(self.image, MAX_PHOTO_SIZE, self.image)
-                self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
+                # Save self.image as it is used for banner and thumb.
+                self.image.save(self.image.name, self.image, save=False)
                 if self.picture_type == 'M': # Add a banner if this is a master.
                     this.project.banner.delete(save=False)
                     self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
+                # Add replacement image and thumb. Image gets watermark so it comes last.
+                self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
+                self.resize_image(self.image, MAX_PHOTO_SIZE, self.image, add_watermark=True)
             elif this.picture_type != self.picture_type: # Image did not change but picture_type did.
                 if self.picture_type == 'M': # This is now a master. Add Banner.
                     self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
                 else: # This is no longer a master. Delete Banner.
                     self.project.banner.delete(save=False)
         except: # Picture object does not exist.
-            # Add the image and thumb.
+            # This save comes first because thumb and banner require image.
             self.image.save(self.image.name, self.image, save=False)
-            self.resize_image(self.image, MAX_PHOTO_SIZE, self.image, add_watermark=True)
-            self.thumb.save(self.image.name, self.image, save=False)
-            self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
             # If this is a master image.
             if self.picture_type == 'M': # Add the banner to the project.
                 self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
+            # Add the image and thumb.
+            self.thumb.save(self.image.name, self.image, save=False)
+            self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
+            self.resize_image(self.image, MAX_PHOTO_SIZE, self.image, add_watermark=True)
 
         super(Picture, self).save(*args, **kwargs)
 
