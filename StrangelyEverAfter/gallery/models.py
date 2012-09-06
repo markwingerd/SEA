@@ -116,47 +116,6 @@ class Picture(models.Model):
             if self.picture_type == 'M': # Add the banner to the project.
                 self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        """
-        try: # Detect if picture object exists.
-            this = Picture.objects.get(id=self.id)
-            if this.image != self.image: # Uploaded image is new
-                # Delete previous images.
-                this.image.delete(save=False)
-                this.thumb.delete(save=False)
-                # Edit image as required.
-                self.image.save(self.image.name, self.image, save=False)
-                self.resize_image(self.image, MAX_PHOTO_SIZE, self.image)
-                self.thumb.save(self.image.name, self.image, save=False)
-                self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
-                if self.picture_type == 'M':
-                    this.project.banner.delete(save=False)
-                    self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
-            # Enter if only picture type changed to 'M' but the image did not.
-            elif this.picture_type != self.picture_type and self.picture_type =='M':
-                this.project.banner.delete(save=False)
-                self.crop_image(self.project.banner, self.image, BANNER_WIDTH, BANNER_CROP)
-        except: # Enters if picture object did not exist.
-            # Edit image as required.
-            self.image.save(self.image.name, self.image, save=False)
-            self.resize_image(self.image, MAX_PHOTO_SIZE, self.image)
-            self.thumb.save(self.image.name, self.image, save=False)
-            self.resize_image(self.thumb, THUMBNAIL_SIZE, self.image)
-        """
-
         super(Picture, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):

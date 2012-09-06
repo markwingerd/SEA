@@ -1,61 +1,60 @@
 body {
-    background-color:#202020;
+    background-color:#444;
+}
+
+div {
+    /*border-width: 1px;
+    border-style: solid;
+    border-color: #FFFFFF;/**/
 }
 
 /*Main Display Styles*/
 .mainDisplay{
     position:relative;
-    z-index:1;
-    background-color:#000020;
     margin:auto;
     top:0px;
     width:1000px;
 }
 .mainDisplayImage {
-    position:absolute;
-    z-index:2;
+    position: absolute;
+    z-index:-1;
     top:200px;
     left:208px;
     width:600px;
     height:400px;
 }
 .mainDisplayBoarder {
-    position:absolute;
-    z-index:4;
     top:0px;
     left:0px;
     width:1000px;
     height:700px;
 }
-.mainDisplayForwards {
-    position:absolute;
-    z-index:5;
-    top:200px;
-    left:608px;
-    width:200px;
-    height:400px;
-}
-.mainDisplayBack {
-    position:absolute;
-    z-index:5;
-    top:200px;
-    left:208px;
-    width:200px;
-    height:400px;
-}
 
 
 /* Link Box */
 .mainDisplayLinkBox {
-    position:absolute;
-    z-index:4;
+    position: absolute;
     top:200px;
-    left:830px;
+    right:0px;
     width:200px;
-    height:600px;
+    height:400px;
 }
 .mainDisplayLinks {
     width:200px;
     height:40px;
     border-style: none;
+}
+
+/* About */
+.aboutBox {
+    margin: auto;
+    font-weight:bold;
+    color: #000000;
+    width: 600px;
+    padding: 5px;
+}
+.aboutBox h2 {
+    color: black;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    margin: 1px;
 }
