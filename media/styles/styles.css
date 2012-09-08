@@ -1,6 +1,12 @@
 body {
-    background-color:#444;
+    background-color:#404040;
+    font-family: Verdana, sans-serif;
+    font-size: small;
 }
+a:link {text-decoration:none;}
+a:visited {text-decoration:none;}
+a:hover {text-decoration:underline;}
+a:active {text-decoration:underline;}
 
 div {
     /*border-width: 1px;
@@ -8,7 +14,7 @@ div {
     border-color: #FFFFFF;/**/
 }
 
-/*Main Display Styles*/
+/* Main Display Styles */
 .mainDisplay{
     position:relative;
     margin:auto;
@@ -52,6 +58,7 @@ div {
     color: #000000;
     width: 600px;
     padding: 5px;
+    font-size: medium;
 }
 .aboutBox h2 {
     color: black;

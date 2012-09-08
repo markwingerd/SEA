@@ -1,5 +1,5 @@
 body {
-    background-color:#b0c4de;
+    background-color:#404040;
     font-family: Verdana, sans-serif;
     font-size: small;
 }
@@ -41,12 +41,9 @@ td {
 
 
 
-
-
-
 /******************************/
 div {
-    border: 0px solid black; /* Reserved for website design */
+    border: 1px solid black; /* Reserved for website design */
     padding: 5px;
     margin: 5px;
 }
@@ -67,6 +64,16 @@ div {
 #content {
     float: right;
     width: 800px;
+}
+#website-title {
+    background-color:661111;
+    color:white;
+    text-align: center;
+}
+#project-list {
+    margin-left: auto;
+    margin-right: auto;
+    width: 20em;
 }
 #image-box {
     float:left;
