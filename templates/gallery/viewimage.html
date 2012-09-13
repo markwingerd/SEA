@@ -7,6 +7,35 @@
 <body>
 
 
+
+
+<div id="wrapper">
+    <div id="header">
+        HEADER
+    </div>
+    <div id="navigation">
+        Navigation bar<br />
+        Navigation bar<br />
+        Navigation bar<br />
+        Navigation bar<br />
+        Navigation bar<br />
+    </div>
+    <div id="content">
+        <div id="project-title">
+            Project: {{ project_name }} - {{ title }}
+        </div>
+        <div id="image-content">
+            <img src="{{ location }}" />
+        </div>
+    </div>
+    <div id="footer">
+        Footer
+    </div>
+</div>
+
+
+
+<!--
 {% if title %}
     <center><table id="imageview">
         <tr>
@@ -26,7 +55,7 @@
     </table></center>
 {% else %}
     <p>Opps. Looks like there is an error.</p>
-{% endif %}
+{% endif %}-->
 
 
 </body>

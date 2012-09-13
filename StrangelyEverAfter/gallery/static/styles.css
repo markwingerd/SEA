@@ -65,7 +65,7 @@ div {
     float: right;
     width: 800px;
 }
-#website-title {
+#website-title, #project-title {
     background-color:661111;
     color:white;
     text-align: center;
@@ -73,7 +73,13 @@ div {
 #project-list {
     margin-left: auto;
     margin-right: auto;
-    width: 20em;
+    width: 140px;
+}
+#image-content {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 522px;
 }
 #image-box {
     float:left;
